@@ -69,7 +69,8 @@ $hari = date_to_day(date('Y-m-d'));
             <div class="mb-3">
                 <label for="foto" class="form-label">SWAFOTO</label>
                 <div id="v_kamera" width="100"></div>
-                <input type=button value="Ambil swafoto" onClick="take_swafoto()" required>
+                <input type="button" id="btnFrontBack" value="Kamera Belakang" />
+                <input type=button value="Ambil swafoto" id="btnCapture" required>
                 <input type="hidden" name="image" id="image-tag">
             </div>
             <div class="mb-3">
@@ -107,31 +108,45 @@ $hari = date_to_day(date('Y-m-d'));
         $image_base64 = base64_decode($image_parts[1]);
         $fileName = uniqid() . '.png';
         $file = $folderPath . $fileName;
-		$logdate = date('Y-m-d H:i:s');
-		
-       	file_put_contents($file, $image_base64);
+        $logdate = date('Y-m-d H:i:s');
+
+        file_put_contents($file, $image_base64);
         $queryinput = $con->query("INSERT into kehadiran_guru(IDTP,KODEGURU,KD_KELAS,TANGGAL,KD_MAPEL,HADIR,KETERANGAN,SWAFOTO,IDP,LOG_DATE) 
     			VALUES('$idtapel','$kguru','$kelas','$date','$mapel','$kehadiran','$pbltoday','$fileName','$iduser','$logdate')");
 
-			echo "<script>Swal.fire('Data sudah berhasil disimpan, tekan OK untuk lihat rekap.').then(function(){window.location.href = './rekap.php';});</script>";
-        
+        echo "<script>Swal.fire('Data sudah berhasil disimpan, tekan OK untuk lihat rekap.').then(function(){window.location.href = './rekap.php';});</script>";
     }
     ?>
     <script>
-        Webcam.set({
-            width: 320,
-            height: 430,
-            image_format: 'png',
-            jpeg_quality: 90
+        $(function() {
+            ApplyPlug();
+            $('#btnCapture').click(function() {
+                Webcam.snap(function(data_uri) {
+                    $("#image-tag").val(data_uri);
+                    document.getElementById('result').innerHTML = '<img id="img-result" src="' + data_uri + '"/>';
+                });
+            });
+
+            $("#btnFrontBack").click(function() {
+                $('#btnFrontBack').val($('#btnFrontBack').val() == 'Kamera Belakang' ? 'Kamera Depan' : 'Kamera Belakang');
+                Webcam.reset();
+                ApplyPlug();
+            });
+
         });
 
-        Webcam.attach('#v_kamera');
-
-        function take_swafoto() {
-            Webcam.snap(function(data_uri) {
-                $("#image-tag").val(data_uri);
-                document.getElementById('result').innerHTML = '<img id="img-result" src="' + data_uri + '"/>';
+        function ApplyPlug() {
+            var camMode = $('#btnFrontBack').val() == 'Kamera Belakang' ? 'user' : 'environment';
+            Webcam.set({
+                width: 320,
+                height: 430,
+                image_format: 'png',
+                jpeg_quality: 90,
+                constraints: {
+                    facingMode: camMode
+                }
             });
+            Webcam.attach('#v_kamera');
         }
 
         $("#kelas").change(function() {
@@ -158,7 +173,7 @@ $hari = date_to_day(date('Y-m-d'));
     </script>
     <script>
         document.getElementById('presensi1').onsubmit = function(e) {
-			/* var radios = document.getElementsByName("kehadiran");
+            /* var radios = document.getElementsByName("kehadiran");
             if ((!radios[0].checked || !radios[1].checked)) {
                 Swal.fire('Jenis Bimbingan belum diisi!');
                 e.preventDefault();

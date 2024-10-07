@@ -66,7 +66,7 @@ include_once 'config/koneksi.php';
                                             if ($stmt->num_rows > 0) {
                                                 $stmt->bind_result($id, $namapengguna, $password, $idkelas, $idstate);
                                                 $stmt->fetch();
-                                                if (password_verify($_POST['password'], $password) and $idstate == 5) {
+                                                if (password_verify($_POST['password'], $password) && $idstate == 5 || $idstate == 6) {
 
                                                     // Create sessions 
                                                     session_regenerate_id();
