@@ -160,30 +160,23 @@ $hari = date_to_day(date('Y-m-d'));
             echo "<script>Swal.fire('Status pemberian Tugas belum diisi');</script>";
         } else {
             $tugas = isset($_POST['tugas']);
-            for ($i = 0; $i < sizeof($jam); $i++) {
-                $numcek = $con->query("SELECT * FROM `kehadiran_guru` WHERE `KODEGURU`='$kguru' AND `JAMKE`='" . $jam[$i] . "' AND `TANGGAL`='$date' AND `KD_KELAS`='$kelas'");
-                $numrow = $numcek->num_rows;
-                if ($numrow > 0) {
-                    echo "<script>Swal.fire('Pembelajaran sudah pernah diinput, silahkan hubungi admin untuk perbaikan!');</script>";
-                } else {
-                    $img = $_POST['image'];
-                    $folderPath = "upload_gambar/";
-                    $image_parts = explode(";base64,", $img);
-                    $image_type_aux = explode("image/", $image_parts[0]);
-                    $image_type = $image_type_aux[1];
-                    $image_base64 = base64_decode($image_parts[1]);
-                    $fileName = uniqid() . '.png';
-                    $file = $folderPath . $fileName;
-                    file_put_contents($file, $image_base64);
-                    $queryinput = $con->query("INSERT INTO kehadiran_guru(IDTP,KODEGURU,KD_KELAS,TANGGAL,JK_KEGIATAN,LINK_KEGIATAN,HASIL_KEGIATAN,KD_MAPEL,JAMKE,HADIR,TUGAS,KETERANGAN,PBL_SELANJUTNYA,SWAFOTO,IDP,LOG_DATE) 
-    			VALUES('$idtapel','$kguru','$kelas','$date','$jkk','$lkk','$hasil','$mapel','$jam[$i]','$kehadiran','$tugas','$pbltoday', '$pblnext','$fileName','$iduser','$logdate')");
-                    //return $queryinput;
-                    if ($queryinput) {
-                        echo "<script>Swal.fire('Data sudah berhasil disimpan, tekan OK untuk lihat rekap.').then(function(){window.location.href = './rekap.php';});</script>";
-                    } else {
-                        echo "<script>Swal.fire('Data Gagal disimpan');</script>";
-                    }
-                }
+            $jamCombine = implode(",", $jam);
+            $img = $_POST['image'];
+            $folderPath = "upload_gambar/";
+            $image_parts = explode(";base64,", $img);
+            $image_type_aux = explode("image/", $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            $image_base64 = base64_decode($image_parts[1]);
+            $fileName = uniqid() . '.png';
+            $file = $folderPath . $fileName;
+            file_put_contents($file, $image_base64);
+            $queryinput = $con->query("INSERT INTO kehadiran_guru(IDTP,KODEGURU,KD_KELAS,TANGGAL,JK_KEGIATAN,LINK_KEGIATAN,HASIL_KEGIATAN,KD_MAPEL,JAMKE,HADIR,TUGAS,KETERANGAN,PBL_SELANJUTNYA,SWAFOTO,IDP,LOG_DATE) 
+    			VALUES('$idtapel','$kguru','$kelas','$date','$jkk','$lkk','$hasil','$mapel','$jamCombine','$kehadiran','$tugas','$pbltoday', '$pblnext','$fileName','$iduser','$logdate')");
+            //return $queryinput;
+            if ($queryinput) {
+                echo "<script>Swal.fire('Data sudah berhasil disimpan, tekan OK untuk lihat rekap.').then(function(){window.location.href = './rekap.php';});</script>";
+            } else {
+                echo "<script>Swal.fire('Data Gagal disimpan');</script>";
             }
         }
     }
