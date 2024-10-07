@@ -1,0 +1,55 @@
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               5.1.72-community - MySQL Community Server (GPL)
+-- Server OS:                    Win32
+-- HeidiSQL Version:             10.2.0.5599
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */
+;
+/*!40101 SET NAMES utf8 */
+;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */
+;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */
+;
+
+-- Dumping database structure for jurnal
+CREATE DATABASE IF NOT EXISTS `jurnal` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `jurnal`;
+
+-- Dumping structure for table jurnal.kehadiran_guru
+CREATE TABLE IF NOT EXISTS `kehadiran_guru` (
+    `IDK` int(11) NOT NULL AUTO_INCREMENT,
+    `IDTP` char(5) NOT NULL,
+    `KODEGURU` char(19) DEFAULT NULL,
+    `KD_KELAS` char(10) DEFAULT NULL,
+    `TANGGAL` date DEFAULT NULL,
+    `JK_KEGIATAN` varchar(2) DEFAULT NULL,
+    `LINK_KEGIATAN` text,
+    `HASIL_KEGIATAN` text,
+    `KD_MAPEL` char(5) DEFAULT NULL,
+    `JAMKE` varchar(20) DEFAULT NULL,
+    `HADIR` varchar(2) DEFAULT NULL,
+    `TUGAS` char(2) DEFAULT NULL,
+    `KETERANGAN` text,
+    `PBL_SELANJUTNYA` text,
+    `SWAFOTO` varchar(100) NOT NULL,
+    `IDP` int(3) DEFAULT NULL,
+    `LOG_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`IDK`),
+    KEY `NIP` (`KODEGURU`),
+    KEY `KD_KELAS` (`KD_KELAS`),
+    KEY `KD_MAPEL` (`KD_MAPEL`)
+) ENGINE = InnoDB AUTO_INCREMENT = 9055 DEFAULT CHARSET = latin1;
+
+/*!40000 ALTER TABLE `kehadiran_guru` ENABLE KEYS */
+;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */
+;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */
+;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */
+;
