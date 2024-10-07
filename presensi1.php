@@ -188,7 +188,6 @@ $hari = date_to_day(date('Y-m-d'));
             image_format: 'png',
             jpeg_quality: 90
         });
-
         Webcam.attach('#v_kamera');
 
         function take_swafoto() {
