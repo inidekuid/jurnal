@@ -13,7 +13,7 @@ $hari = date_to_day(date('Y-m-d'));
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-	<link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="assets/css/presensi.css">
 
 </head>
@@ -23,21 +23,22 @@ $hari = date_to_day(date('Y-m-d'));
     <div class="container">
         <div class="alert alert-info text-center">Halaman ini memuat data isian aktifitas pembelajaran bapak/ibu dikelas atau saat meninggalkan tugas karena berhalangan hadir dikelas.</div>
         <div class="col-lg">
-			<div class="col-lg-12 mb-">
-				<form action="rekapguru_ind_cetak.php" method="post">
-				<input type="hidden" name="guru" value="<?php echo $_SESSION['idnip']?>">
-					<div class="input-group">
-					  <span class="input-group-text">Masukkan Rentang Tanggal Cetak</span>
-					  <input type="text" name="date1" id="datepicker" placeholder="Tanggal Awal" aria-label="First name" class="form-control">
-					  <input type="text" name="date2" id="datepicker2" placeholder="Tanggal Akhir" aria-label="Last name" class="form-control">
-					</div>
-					
-					<div class="d-grid gap-2">
-						<button class="btn btn-primary" type="submit" name="simpan" formtarget="_blank">Cetak Rekap</button>
-					</div>
-				</form>
-						
-			</div>
+            <div class="col-lg-12 mb-">
+                <form action="rekapguru_ind_cetak.php" method="post">
+                    <input type="hidden" name="guru" value="<?php echo $_SESSION['idnip'] ?>">
+                    <input type="hidden" name="tp" value="<?php echo $data_tp['IDTP'] ?>">
+                    <div class="input-group">
+                        <span class="input-group-text">Masukkan Rentang Tanggal Cetak</span>
+                        <input type="text" name="date1" id="datepicker" placeholder="Tanggal Awal" aria-label="First name" class="form-control">
+                        <input type="text" name="date2" id="datepicker2" placeholder="Tanggal Akhir" aria-label="Last name" class="form-control">
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" type="submit" name="simpan" formtarget="_blank">Cetak Rekap</button>
+                    </div>
+                </form>
+
+            </div>
             <table id="rekap" class="table table-striped nowrap" style="width:100%">
                 <thead>
                     <tr>
@@ -76,7 +77,7 @@ $hari = date_to_day(date('Y-m-d'));
                                             LEFT JOIN guru AS gr ON kg.KODEGURU=gr.KODEGURU
 											LEFT JOIN ref_kelas AS rk on kg.KD_KELAS=rk.KD_KELAS
 											LEFT JOIN ref_mapel AS rm on kg.KD_MAPEL=rm.KDMAPEL
-											WHERE kg.KODEGURU='" . $_SESSION['idnip'] . "' and kg.IDTP='".$data_tp['IDTP']."' ORDER BY kg.TANGGAL ASC");
+											WHERE kg.KODEGURU='" . $_SESSION['idnip'] . "' and kg.IDTP='" . $data_tp['IDTP'] . "' ORDER BY kg.TANGGAL ASC");
                     while ($data = $stmts->fetch_array()) {
                         echo "<tr><td>" . $data['TANGGAL'] . "</td><td>" . $data['NAMA_KELAS'] . "</td>
                         ";
@@ -114,23 +115,22 @@ $hari = date_to_day(date('Y-m-d'));
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
-	<script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <script>
         new DataTable('#rekap', {
             responsive: true
         });
-		
-		$('#datepicker').datepicker({
-            uiLibrary: 'bootstrap5', 
-			iconsLibrary: 'materialicons',
+
+        $('#datepicker').datepicker({
+            uiLibrary: 'bootstrap5',
+            iconsLibrary: 'materialicons',
             format: 'yyyy-mm-dd'
         });
-		$('#datepicker2').datepicker({
-            uiLibrary: 'bootstrap5', 
-			iconsLibrary: 'materialicons',
+        $('#datepicker2').datepicker({
+            uiLibrary: 'bootstrap5',
+            iconsLibrary: 'materialicons',
             format: 'yyyy-mm-dd'
         });
-		
     </script>
 </body>
 

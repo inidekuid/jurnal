@@ -4,8 +4,6 @@ $hari = date_to_day(date('Y-m-d'));
 $tg_a  = $_POST['date1'];
 $tg_b = $_POST['date2'];
 $nip = $_POST['guru'];
-$tp = $con->query("SELECT * FROM tahun_pelajaran WHERE IDTP='".$tp."'");
-$rowtp = $tp->fetch_array();
 $namaBulan = array(1 => "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
 $a = $con->query("SELECT KODEGURU, NAMA FROM guru WHERE KODEGURU='" . $nip . "'");
 $rs = $a->fetch_array();
@@ -43,7 +41,7 @@ $rs = $a->fetch_array();
 
                     <address>
                         Nama Guru: <strong><?php echo $rs['NAMA']; ?></strong><br>
-                        Tahun Pelajaran/Semester: <strong><?php echo $rowtp['KETERANGAN']; ?></strong>
+                        Tahun Pelajaran/Semester: <strong><?php echo $data_tp['KETERANGAN']; ?></strong>
                     </address>
                 </div>
 
